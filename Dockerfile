@@ -1,11 +1,33 @@
+# Use the latest version of Rust
+FROM rust as builder
 
-        FROM rust:latest as builder
-        WORKDIR /usr/src
+# Set the working directory in the Docker image
+WORKDIR /app
 
-        COPY ./ ./
-        RUN cargo build --release
+# Copy the Rust application into the Docker image
+COPY . .
 
-        FROM debian:buster-slim
-        COPY --from=builder /usr/src/target/release/podanvil /usr/local/bin/podanvil
-        CMD ["/usr/local/bin/podanvil"]
-        
+# Build the Rust application
+RUN cargo build --release
+
+# Start a new build stage
+FROM debian:buster-slim
+
+# Set the working directory in the Docker image
+WORKDIR /
+
+# Copy the compiled Rust binary into the Docker image
+COPY --from=builder /app/target/release/podanvil /podanvil
+
+# Use a build argument to specify the URL
+ARG URL
+
+# Copy the website content into the Docker image
+COPY ./${URL} /${URL}
+
+# Run the Rust application, specifying the directory to serve files from
+CMD ["/podanvil"]
+
+# Expose port 80
+EXPOSE 80
+
