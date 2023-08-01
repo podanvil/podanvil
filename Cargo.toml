@@ -12,3 +12,6 @@ path = "src/main.rs"
 actix-web = "*"
 actix-rt = "*"
 actix-files = "*"
+warp = "*" 
+tokio = { version = "*", features = ["full"] }
+
