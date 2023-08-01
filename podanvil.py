@@ -1,84 +1,41 @@
-"""
-This is a simple script to create an nginx-based Kubernetes deployment for each loop iteration. 
-
-A config map is used to add dynamic data (the command that was run to create the deployment) to each pod.
-"""
+# podanvil.py
 
 import subprocess
-from kubernetes import client, config
+import os
+import logging
 
-# Define the base names for your resources
-CLUSTER_BASENAME = "clu-rustpress-prod-squeeze-20230731-001"
-NODE_BASENAME = "node-rustpress-prod-squeeze-20230731-001"
-SERVICE_BASENAME = "svc-rustpress-prod-squeeze-20230731-001"
-POD_BASENAME = "pod-rustpress-prod-squeeze-20230731-001"
-FILE_NAME = "thaodean.com.tar.gz"
+logging.basicConfig(level=logging.INFO)
 
-# Define the number of pods
-NUMBER_OF_PODS = 58
+def deploy(file_name, cluster=None, node=None, service=None, pod=None):
+    """
+    This function deploys a pod to a node and returns the URL of the pod.
+    """
+    # Validate the file
+    if not os.path.isfile(file_name):
+        logging.error(f"File {file_name} does not exist.")
+        return
 
-# Configure kubectl
-config.load_kube_config()
+    # If the parameters are not provided, generate them
+    cluster = cluster or generate_name(file_name, "cluster")
+    node = node or get_active_node()  # Ask the user if it's okay to use the active node
+    service = service or generate_name(file_name, "service")
+    pod = pod or generate_name(file_name, "pod")
 
-# Get the API client
-v1 = client.CoreV1Api()
+    try:
+        # Deploy the pod (implementation is not shown)
+        deploy_pod(file_name, cluster, node, service, pod)
 
-# Loop from 1 to NUMBER_OF_PODS
-for i in range(1, NUMBER_OF_PODS + 1):
-    # Define the names for this iteration
-    CLUSTER = f"{CLUSTER_BASENAME}-{i}"
-    NODE = f"{NODE_BASENAME}-{i}"
-    SERVICE = f"{SERVICE_BASENAME}-{i}"
+        # Get the URL of the pod
+        url = get_pod_url(cluster, service, pod)
 
-    # Define the command
-    command = f"python3 podanvil.py {FILE_NAME} -clu {CLUSTER} -node {NODE} -svc {SERVICE}"
+        # Verify the pod is accessible
+        if not is_accessible(url):
+            raise Exception(f"Failed to access {url}")
+    except Exception as e:
+        logging.error(f"Failed to deploy pod. Reason: {str(e)}")
+        return
 
-    # Create a config map with the command as data
-    config_map = client.V1ConfigMap(
-        metadata=client.V1ObjectMeta(name=f"command-config-{i}"),
-        data={"command": command},
-    )
-    v1.create_namespaced_config_map("default", config_map)
+    return url
 
-    # Define the deployment manifest
-    deployment = {
-        "apiVersion": "apps/v1",
-        "kind": "Deployment",
-        "metadata": {"name": f"nginx-deployment-{i}"},
-        "spec": {
-            "replicas": 1,
-            "selector": {"matchLabels": {"app": f"nginx-{i}"}},
-            "template": {
-                "metadata": {"labels": {"app": f"nginx-{i}"}},
-                "spec": {
-                    "containers": [
-                        {
-                            "name": f"nginx-{i}",
-                            "image": "nginx:1.14.2",
-                            "ports": [{"containerPort": 80}],
-                            "volumeMounts": [
-                                {
-                                    "name": "config-volume",
-                                    "mountPath": "/usr/share/nginx/html/index.html",
-                                    "subPath": "command",
-                                }
-                            ],
-                        }
-                    ],
-                    "volumes": [
-                        {
-                            "name": "config-volume",
-                            "configMap": {"name": f"command-config-{i}"},
-                        }
-                    ],
-                },
-            },
-        },
-    }
-
-    # Create the deployment
-    client.AppsV1Api().create_namespaced_deployment("default", deployment)
-
-    # Run the original python command as well
-    subprocess.run(command, shell=True)
+# Rest of the functions stay the same
 

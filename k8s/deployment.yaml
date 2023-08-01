@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thaodean
+  labels:
+    app: thaodean
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thaodean
+  template:
+    metadata:
+      labels:
+        app: thaodean
+    spec:
+      containers:
+      - name: thaodean
+        image: thaodean:v1
+        ports:
+        - containerPort: 5000
+

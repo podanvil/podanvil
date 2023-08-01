@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>AWS</title>
+	<atom:link href="https://thaodean.com/tag/aws/feed/" rel="self" type="application/rss+xml" />
+	<link>https://thaodean.com</link>
+	<description></description>
+	<lastBuildDate>Tue, 01 Aug 2023 01:39:03 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2.2</generator>
+
+<image>
+	<url>https://thaodean.com/wp-content/uploads/2023/07/logo-up.svg</url>
+	<title>AWS</title>
+	<link>https://thaodean.com</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">221862992</site>	<item>
+		<title>Hosting a Static Website on AWS with Amazon S3 and Route 53</title>
+		<link>https://thaodean.com/sw/aws/title-hosting-a-static-website-on-aws-with-amazon-s3-and-route-53/</link>
+					<comments>https://thaodean.com/sw/aws/title-hosting-a-static-website-on-aws-with-amazon-s3-and-route-53/#respond</comments>
+		
+		<dc:creator><![CDATA[thaodean]]></dc:creator>
+		<pubDate>Tue, 01 Aug 2023 01:23:50 +0000</pubDate>
+				<category><![CDATA[AWS]]></category>
+		<category><![CDATA[Amazon S3]]></category>
+		<category><![CDATA[AWS Route 53]]></category>
+		<category><![CDATA[AWS Web Hosting]]></category>
+		<category><![CDATA[Cloud Services]]></category>
+		<category><![CDATA[DNS Management]]></category>
+		<category><![CDATA[Domain Registration]]></category>
+		<category><![CDATA[Route 53]]></category>
+		<category><![CDATA[Static Website Hosting]]></category>
+		<category><![CDATA[Web Development]]></category>
+		<guid isPermaLink="false">https://thaodean.com/?p=135</guid>
+
+					<description><![CDATA[Introduction In this blog post, we will explore how to host a simple static website using Amazon S3 and set up a custom domain using Amazon Route 53. Step 1: Create an Amazon S3 Bucket First, we need to create... <a class="more-link" href="https://thaodean.com/sw/aws/title-hosting-a-static-website-on-aws-with-amazon-s3-and-route-53/">Continue Reading &#8594;</a>]]></description>
+										<content:encoded><![CDATA[
+<h3 class="wp-block-heading">Introduction</h3>
+
+
+
+<p>In this blog post, we will explore how to host a simple static website using Amazon S3 and set up a custom domain using Amazon Route 53.</p>
+
+
+
+<h3 class="wp-block-heading">Step 1: Create an Amazon S3 Bucket</h3>
+
+
+
+<p>First, we need to create an S3 bucket where our website&#8217;s files will be stored. Log into your AWS Console and navigate to the S3 service. Click on &#8220;Create bucket&#8221; and provide a unique name for your bucket. Remember to uncheck &#8220;Block all public access&#8221; if you want your website to be publicly accessible.</p>
+
+
+
+<h3 class="wp-block-heading">Step 2: Upload Your Website Files</h3>
+
+
+
+<p>Next, upload your website&#8217;s files to the S3 bucket. You can do this by clicking on the name of your bucket to open it, then clicking &#8220;Upload&#8221;. Select the files you want to upload (for a basic website, this might be an <code>index.html</code> file) and click &#8220;Upload&#8221;.</p>
+
+
+
+<h3 class="wp-block-heading">Step 3: Set Bucket Policy</h3>
+
+
+
+<p>To allow public access to the files in your bucket, you need to set a bucket policy that permits this. In the S3 bucket settings, navigate to &#8220;Permissions&#8221; and then &#8220;Bucket Policy&#8221;. Here, you can set a policy that allows public read access to your files.</p>
+
+
+
+<p>Here is a sample policy that does this:</p>
+
+
+
+<pre title="s3publicpolicy.json" class="wp-block-code"><code lang="json" class="language-json line-numbers">{
+    &quot;Version&quot;: &quot;2012-10-17&quot;,
+    &quot;Statement&quot;: [
+        {
+            &quot;Sid&quot;: &quot;PublicReadGetObject&quot;,
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Principal&quot;: &quot;*&quot;,
+            &quot;Action&quot;: &quot;s3:GetObject&quot;,
+            &quot;Resource&quot;: &quot;arn:aws:s3:::{your-bucket-name}/*&quot;
+        }
+    ]
+}
+</code></pre>
+
+
+
+<p>Replace &#8220;{your-bucket-name}&#8221; with the actual name of your S3 bucket.</p>
+
+
+
+<h3 class="wp-block-heading">Step 4: Register a Domain with Amazon Route 53</h3>
+
+
+
+<p>Now, we need a domain that users can use to access your website. Amazon Route 53 is a domain registration service that integrates well with S3.</p>
+
+
+
+<p>In the AWS Console, navigate to the Route 53 service and click on &#8220;Register Domain&#8221;. Follow the steps to register a domain. Once your domain is successfully registered, you can configure it to point to your S3 bucket.</p>
+
+
+
+<h3 class="wp-block-heading">Step 5: Configure DNS Settings</h3>
+
+
+
+<p>In Route 53, navigate to &#8220;Hosted zones&#8221; and click on the name of your domain. Create a new record set, select the type as &#8220;A &#8211; IPv4 address&#8221;, and select &#8220;Alias&#8221;. In the alias target, enter the S3 website endpoint that AWS provided when you created your bucket. Save the record set.</p>
+
+
+
+<p>Now, your domain should be pointing to your S3 bucket. When you navigate to your domain in a web browser, you should see your website!</p>
+
+
+
+<h3 class="wp-block-heading">Conclusion</h3>
+
+
+
+<p>Amazon S3 and Route 53 are powerful tools that allow you to host and serve static websites. By leveraging these services, you can have your website up and running in no time!</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://thaodean.com/sw/aws/title-hosting-a-static-website-on-aws-with-amazon-s3-and-route-53/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">135</post-id>	</item>
+	</channel>
+</rss>

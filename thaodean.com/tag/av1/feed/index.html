@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	>
+
+<channel>
+	<title>AV1</title>
+	<atom:link href="https://thaodean.com/tag/av1/feed/" rel="self" type="application/rss+xml" />
+	<link>https://thaodean.com</link>
+	<description></description>
+	<lastBuildDate>Mon, 31 Jul 2023 00:45:02 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2.2</generator>
+
+<image>
+	<url>https://thaodean.com/wp-content/uploads/2023/07/logo-up.svg</url>
+	<title>AV1</title>
+	<link>https://thaodean.com</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">221862992</site>	<item>
+		<title>Optimizing FFmpeg for AV1 Encoding with SVT-AV1</title>
+		<link>https://thaodean.com/sw/optimizing-ffmpeg-for-av1-encoding-with-svt-av1/</link>
+					<comments>https://thaodean.com/sw/optimizing-ffmpeg-for-av1-encoding-with-svt-av1/#respond</comments>
+		
+		<dc:creator><![CDATA[thaodean]]></dc:creator>
+		<pubDate>Sun, 30 Jul 2023 19:32:15 +0000</pubDate>
+				<category><![CDATA[Compression]]></category>
+		<category><![CDATA[SW]]></category>
+		<category><![CDATA[AV1]]></category>
+		<category><![CDATA[Command Line Video Tools]]></category>
+		<category><![CDATA[FFmpeg]]></category>
+		<category><![CDATA[FFmpeg Tips]]></category>
+		<category><![CDATA[Linux Media Processing]]></category>
+		<category><![CDATA[SVT-AV1]]></category>
+		<category><![CDATA[SVT-AV1 Encoding]]></category>
+		<category><![CDATA[Video Coding]]></category>
+		<category><![CDATA[Video Compression]]></category>
+		<category><![CDATA[Video Conversion]]></category>
+		<category><![CDATA[Video Encoding]]></category>
+		<category><![CDATA[Video Optimization]]></category>
+		<category><![CDATA[Video Processing]]></category>
+		<category><![CDATA[Video Streaming]]></category>
+		<guid isPermaLink="false">https://thaodean.com/?p=116</guid>
+
+					<description><![CDATA[In the realm of open-source video encoding, ffmpeg stands out as a versatile and powerful tool. Its capabilities range from simple video conversions to complex transcoding, filtering, and streaming tasks. Today, I&#8217;ll share some insights into optimizing ffmpeg for AV1... <a class="more-link" href="https://thaodean.com/sw/optimizing-ffmpeg-for-av1-encoding-with-svt-av1/">Continue Reading &#8594;</a>]]></description>
+										<content:encoded><![CDATA[
+<p>In the realm of open-source video encoding, ffmpeg stands out as a versatile and powerful tool. Its capabilities range from simple video conversions to complex transcoding, filtering, and streaming tasks. Today, I&#8217;ll share some insights into optimizing ffmpeg for AV1 encoding using the Scalable Video Technology for AV1 (SVT-AV1) encoder.</p>
+
+
+
+<p>AV1 is a high-efficiency video codec that improves over predecessors like VP9 and HEVC/H.265. It offers superior compression efficiency, reducing file sizes without sacrificing quality. However, AV1 encoding can be resource-intensive. SVT-AV1, an open-source project backed by Intel and Netflix, offers a performant encoder that can help balance efficiency with resource usage.</p>
+
+
+
+<p>Here are the default ffmpeg settings I use for encoding videos with AV1 using the SVT-AV1 encoder:</p>
+
+
+
+<pre class="wp-block-code has-white-color has-light-gray-background-color has-text-color has-background has-regular-font-size"><code lang="bash" class="language-bash">ffmpeg -i input.mp4 -c:v libsvtav1 -preset 5 -crf 28 -g 240 -pix_fmt yuv420p10le -svtav1-params tune=0:film-grain=10 -c:a libopus -b:a 100k output.mkv</code></pre>
+
+
+
+<p><strong>Video and Audio Settings</strong></p>
+
+
+
+<p>The command includes a set of parameters tailored to optimize the encoding process:</p>
+
+
+
+<ol>
+<li><strong>-c:v libsvtav1</strong>: This instructs ffmpeg to use the SVT-AV1 library for video encoding. SVT-AV1 is renowned for its efficient balance between encoding speed and video quality.</li>
+
+
+
+<li><strong>-preset 5</strong>: A preset is a collection of options that will provide a certain encoding speed to compression ratio. A lower preset will provide better compression (smaller output file size) at the cost of encoding speed, while a higher preset will encode faster but with less compression. A preset of 5 is a good balance between encoding speed and compression ratio.</li>
+
+
+
+<li><strong>-crf 28</strong>: The Constant Rate Factor (CRF) value influences the video quality during encoding. Lower values yield better quality but larger files, while higher values provide more compression but at the expense of quality. A CRF of 28 is a reasonable choice for maintaining good video quality while achieving satisfactory compression.</li>
+
+
+
+<li><strong>-g 240</strong>: The <code>-g</code> option sets the group of pictures (GOP) size, which is the distance between keyframes. A keyframe is a frame where a complete image is stored in the data stream. In video compression, only changes that occur from one frame to the next are stored in the data stream, enabling significant data savings. A GOP size of 240 frames means a keyframe will be inserted at least every 240 frames. This balances between video quality, file size, and the ability to seek within the video.</li>
+
+
+
+<li><strong>-pix_fmt yuv420p10le:</strong> This sets the pixel format to a widely recognized format, using 10 bits per color channel. This can slightly boost compression while preserving video quality. Sometimes, simply changing a video recording&#8217;s pixel format—especially from a rare camera pixel format to a more common one like yuv420p—can enhance compatibility.</li>
+
+
+
+<li><strong>-svtav1-params tune=0:film-grain=10</strong>: Here, we pass direct parameters to the SVT-AV1 encoder. The <code>tune=0</code> parameter optimizes for visual quality. The <code>film-grain=10</code> parameter simulates film grain, which can potentially reduce file size by smoothing out noise during compression.</li>
+
+
+
+<li><strong>-c:a libopus -b:a 100k</strong>: This command specifies the libopus codec for audio encoding at a bitrate of 100k. Despite the relatively low bitrate, libopus is capable of delivering clear and detailed sound, which makes it ideal for capturing even subtle audio nuances. It&#8217;s a free, future-proof, universally compatible codec favored by the open-source community for its robust performance and excellent quality-to-size ratio.</li>
+</ol>
+
+
+
+<p><strong>Output Format</strong></p>
+
+
+
+<p>We choose MKV as our output format. While both MP4 and MKV support a wide variety of codecs, including AV1 and Opus, MKV has a few key advantages that make it more suitable for our use case. MKV is known for its robustness and flexibility, offering features such as error resilience, which is beneficial for maintaining video playback even if the file has minor corruptions. MKV also supports features like fast seeking and chapter markers, which can be useful for navigation within longer videos. Its open-source nature and wide support in the multimedia community further add to its appeal.</p>
+
+
+
+<p>Remember, these settings are a starting point. The optimal parameters depend on your specific use case, input media, and hardware capabilities. However, these settings should provide a reasonable balance between quality, file size, and encoding time for a wide range of scenarios.</p>
+
+
+
+<p><strong>Note on System Performance</strong></p>
+
+
+
+<p>Encoding AV1, particularly with SVT-AV1, is a demanding process that can consume significant CPU resources. As a result, you may experience system slowdowns during the encoding process. If your system includes a dedicated graphics card that supports AV1 hardware encoding, you could reduce the CPU load by leveraging the power of your GPU.</p>
+
+
+
+<p>So, if you have access to ffmpeg in the command line, give these settings a try. Experiment with different parameters, see what works best for your needs, and share your findings with the community. Happy encoding</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://thaodean.com/sw/optimizing-ffmpeg-for-av1-encoding-with-svt-av1/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">116</post-id>	</item>
+	</channel>
+</rss>

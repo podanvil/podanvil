@@ -1,38 +1,40 @@
-"""
-This is an example usage of the podanvil.py script.
+# max_node_pod_deploy.py
 
-It demonstrates how to use podanvil.py to start a specific number of pods on a single node.
+import podanvil
+import logging
 
-This script is meant to be run in an environment where you have permission to create resources on AWS and
-where podanvil.py is available.
-"""
+logging.basicConfig(level=logging.INFO)
 
-import subprocess
-
-# Define the base names for your resources
-CLUSTER = "clu-rustpress-prod-squeeze-20230731-001"
-NODE = "node-rustpress-prod-squeeze-20230731-001"
-SERVICE = "svc-rustpress-prod-squeeze-20230731-001"
-POD_BASENAME = "pod-rustpress-prod-squeeze-20230731-001"
-FILE_NAME = "thaodean.com.tar.gz"
-
-# Define the number of pods
+# Define the number of pods to deploy
 NUMBER_OF_PODS = 58
 
-# Loop from 1 to NUMBER_OF_PODS
-for i in range(1, NUMBER_OF_PODS + 1):
-    # Define the pod name for this iteration
-    POD = f"{POD_BASENAME}-{i}"
+def deploy_pods():
+    """
+    This function deploys a specified number of pods to a node.
+    """
+    # Define the base names for your resources
+    CLUSTER_BASENAME = "clu-rustpress-prod-squeeze-20230731-001"
+    NODE_BASENAME = "node-rustpress-prod-squeeze-20230731-001"
+    SERVICE_BASENAME = "svc-rustpress-prod-squeeze-20230731-001"
+    POD_BASENAME = "pod-rustpress-prod-squeeze-20230731-001"
+    FILE_NAME = "thaodean.com.tar.gz"
 
-    # Run the python command
-    command = f"python3 podanvil.py {FILE_NAME} -clu {CLUSTER} -node {NODE} -svc {SERVICE} -pod {POD}"
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-    stdout, _ = process.communicate()
+    # Loop from 1 to NUMBER_OF_PODS
+    for i in range(1, NUMBER_OF_PODS + 1):
+        # Define the names for this iteration
+        CLUSTER = f"{CLUSTER_BASENAME}"
+        NODE = f"{NODE_BASENAME}"
+        SERVICE = f"{SERVICE_BASENAME}-{i}"
+        POD = f"{POD_BASENAME}-{i}"
 
-    # Check for errors
-    if process.returncode != 0:
-        print(f"Failed to deploy pod {POD} to {NODE}.")
-    else:
-        # Print the returned URL
-        print(f"Deployed pod {POD} to {NODE}. The site can be accessed at {stdout.decode().strip()}")
+        # Run the podanvil deploy function
+        url = podanvil.deploy(FILE_NAME, CLUSTER, NODE, SERVICE, POD)
+        if url:
+            logging.info(f"The contents of {FILE_NAME} are available on {url}")
+        else:
+            logging.warning("Deployment failed. Moving to the next pod.")
+
+if __name__ == "__main__":
+    deploy_pods()
+
 
