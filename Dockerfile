@@ -6,7 +6,6 @@
         RUN cargo build --release
 
         FROM debian:buster-slim
-	COPY --from=builder /usr/src/target/release/podanvil /usr/local/bin
-
+        COPY --from=builder /usr/src/target/release/podanvil /usr/local/bin/podanvil
         CMD ["/usr/local/bin/podanvil"]
         

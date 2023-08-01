@@ -7,7 +7,7 @@ async fn index(filename: actix_web::web::Path<String>) -> impl Responder {
     let contents = fs::read_to_string(filename.into_inner()).unwrap_or_else(|_| String::from("File not found"));
 
     HttpResponse::Ok()
-        .header("Content-Type", "text/html")
+        .append_header(("Content-Type", "text/html"))
         .body(contents)
 }
 
