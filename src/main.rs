@@ -1,15 +1,7 @@
-use std::env;
-use warp::Filter;
-
-#[tokio::main]
-async fn main() {
-    // Get the directory name from the first command-line argument
+fn main() {
     let args: Vec<String> = env::args().collect();
-    let directory = &args[1];
-
-    // Serve files from the specified directory
+    let directory = args[1].clone();
     let route = warp::fs::dir(directory);
-
-    warp::serve(route).run(([0, 0, 0, 0], 80)).await;
+    warp::serve(route).run(([127, 0, 0, 1], 80));
 }
 
