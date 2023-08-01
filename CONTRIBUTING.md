@@ -1,6 +1,4 @@
 
-2. **Contributing Guidelines**: Here is a basic example of what you can put in your `CONTRIBUTING.md` file:
-
 ```markdown
 # Contributing to Podanvil
 
