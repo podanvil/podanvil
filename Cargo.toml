@@ -1,0 +1,14 @@
+[package]
+name = "my_project"
+version = "0.1.0"
+authors = ["Your Name <your.email@example.com>"]
+edition = "2018"
+
+[[bin]]
+name = "my_project"
+path = "src/main.rs"
+
+[dependencies]
+actix-web = "*"
+actix-rt = "*"
+actix-files = "*"
