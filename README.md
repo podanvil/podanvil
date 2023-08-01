@@ -14,12 +14,12 @@ This project aims to streamline the management of Platform as a Service (PaaS) i
 
 Clone the repository:
 
-```bash
+bash
 git clone git@github.com:podanvil/podanvil.git
 
 Navigate to the project directory:
 
-```bash
+bash
 
 cd podanvil
 
@@ -27,7 +27,7 @@ Usage
 
 Run the main script:
 
-```bash
+bash
 
 python3 podanvil.py {file}
 
