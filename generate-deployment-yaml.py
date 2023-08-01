@@ -1,46 +1,26 @@
 import yaml
+import sys
 
-def create_deployment(image_name, deployment_name):
-    deployment = {
-        "apiVersion": "apps/v1",
-        "kind": "Deployment",
-        "metadata": {
-            "name": f"{deployment_name}-deployment",
-        },
-        "spec": {
-            "replicas": 1,
-            "selector": {
-                "matchLabels": {
-                    "app": deployment_name,
-                },
-            },
-            "template": {
-                "metadata": {
-                    "labels": {
-                        "app": deployment_name,
-                    },
-                },
-                "spec": {
-                    "containers": [
-                        {
-                            "name": deployment_name,
-                            "image": image_name,
-                            "ports": [
-                                {
-                                    "containerPort": 80,
-                                },
-                            ],
-                        },
-                    ],
-                },
-            },
-        },
-    }
+def convert_to_subdomain(url):
+    return url.replace('.', '-')
 
-    with open(f"{deployment_name}-deployment.yaml", "w") as f:
-        yaml.dump(deployment, f)
+def main():
+    url = sys.argv[1]
+    subdomain_safe_url = convert_to_subdomain(url)
+    
+    with open('k8s/ingress_template.yaml', 'r') as f:
+        ingress_yaml = yaml.safe_load(f)
 
-# Usage:
-create_deployment("your_dockerhub_username/actix_simple_main:latest", "actix_simple_main")
-create_deployment("your_dockerhub_username/actix_full_prod_main:latest", "actix_full_prod_main")
+    # Replace occurrences in the YAML
+    ingress_yaml['metadata']['name'] = f"{subdomain_safe_url}-ingress"
+    ingress_yaml['spec']['tls'][0]['hosts'][0] = f"{subdomain_safe_url}.podanvil.com"
+    ingress_yaml['spec']['tls'][0]['secretName'] = f"{subdomain_safe_url}-tls"
+    ingress_yaml['spec']['rules'][0]['host'] = f"{subdomain_safe_url}.podanvil.com"
+    ingress_yaml['spec']['rules'][0]['http']['paths'][0]['backend']['service']['name'] = f"{subdomain_safe_url}-service"
+
+    with open(f'k8s/{subdomain_safe_url}_ingress.yaml', 'w') as f:
+        yaml.dump(ingress_yaml, f)
+
+if __name__ == "__main__":
+    main()
 

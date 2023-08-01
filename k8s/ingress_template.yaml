@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{subdomain_safe_url}}-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - {{subdomain_safe_url}}.podanvil.com
+    secretName: {{subdomain_safe_url}}-tls
+  rules:
+  - host: {{subdomain_safe_url}}.podanvil.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: {{subdomain_safe_url}}-service
+            port:
+              number: 80
+
