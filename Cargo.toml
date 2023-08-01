@@ -1,11 +1,11 @@
 [package]
-name = "my_project"
-version = "0.1.0"
-authors = ["Your Name <your.email@example.com>"]
+name = "podanvil"
+version = "0.9.1"
+authors = ["Attila Toth <thaodean.gmail.com>"]
 edition = "2018"
 
 [[bin]]
-name = "my_project"
+name = "podanvil"
 path = "src/main.rs"
 
 [dependencies]

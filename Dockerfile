@@ -6,6 +6,6 @@
         RUN cargo build --release
 
         FROM debian:buster-slim
-        COPY --from=builder /usr/src/target/release/main.rs /usr/local/bin
-        CMD ["main.rs"]
+        COPY --from=builder /usr/src/target/release/src/main.rs /usr/local/bin
+        CMD ["src/main.rs"]
         
