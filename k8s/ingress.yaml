@@ -1,19 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: thaodean-ingress
+  name: thaodean-ingress  # You should update this with your Python script
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  tls:
+  - hosts:
+    - thaodean-com.podanvil.com  # You should update this with your Python script
+    secretName: thaodean-com-tls  # You should update this with your Python script
   rules:
-  - host: thaodean-com.podanvil.com
+  - host: thaodean-com.podanvil.com  # You should update this with your Python script
     http:
       paths:
       - pathType: Prefix
         path: "/"
         backend:
           service:
-            name: thaodean-service
+            name: thaodean-service  # You should update this with your Python script
             port:
               number: 80
 
