@@ -1,48 +1,46 @@
 
-```markdown
 # Contributing to Podanvil
 
-We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
+We're thrilled that you're interested in contributing to Podanvil! We aim to make this process as straightforward and transparent as possible, whether you're:
 
 - Reporting a bug
 - Discussing the current state of the code
 - Submitting a fix
 - Proposing new features
-- Becoming a maintainer
+- Interested in becoming a maintainer
 
-## We Develop with Github
+## Our Development Process Utilizes Github
 
-We use github to host code, to track issues and feature requests, as well as accept pull requests.
+We leverage Github for hosting our code, tracking issues and feature requests, and accepting pull requests.
 
-## We Use [Github Flow](https://guides.github.com/introduction/flow/index.html)
+## We Follow the [Github Flow](https://guides.github.com/introduction/flow/index.html)
 
-We use Github Flow, so all code changes happen through pull requests. Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
+We adopt the Github Flow model, meaning all code changes occur through pull requests. Pull requests are the preferred way to propose changes to the codebase. We actively encourage your pull requests:
 
 1. Fork the repo and create your branch from `main`.
-2. If you've added code that should be tested, add tests.
-3. If you've changed APIs, update the documentation.
+2. If you've added code that requires testing, include the tests.
+3. If you've altered APIs, update the corresponding documentation.
 4. Ensure the test suite passes.
-5. Make sure your code lints.
-6. Issue that pull request!
+5. Verify that your code adheres to our linting standards.
+6. Issue your pull request!
 
-## Any contributions you make will be under the MIT Software License
+## All Contributions Are Under the MIT Software License
 
-In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
+In essence, when you submit code changes, your submissions are assumed to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. If you have any concerns about this, please don't hesitate to contact the maintainers.
 
-## Report bugs using Github's [issues](https://github.com/briandk/transcriptase-atom/issues)
+## Use Github's [Issues](https://github.com/podanvil/podanvil/issues) to Report Bugs
 
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/podanvil/podanvil/issues); it's that easy!
+We utilize GitHub issues to track public bugs. You can report a bug by [opening a new issue](https://github.com/podanvil/podanvil/issues); it's as simple as that!
 
-## Write bug reports with detail, background, and sample code
+## Write Detailed, Thorough Bug Reports
 
-Great Bug Reports tend to have:
+An effective bug report typically includes:
 
-- A quick summary and/or background
-- Steps to reproduce
-- Be specific!
-- Give sample code if you can.
+- A concise summary and/or background
+- Steps to reproduce the issue
+- Be as specific as possible!
+- Provide sample code if applicable.
 
-**Thanks!**
+**Thank You!**
 
-Podanvil Team
-
+\- The Podanvil Team
