@@ -6,6 +6,9 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
+# initialize the pod counter
+pod_counter = 0
+
 def deploy(file_name, cluster=None, node=None, service=None, pod=None):
     """
     This function deploys a pod to a node and returns the URL of the pod.
@@ -19,7 +22,16 @@ def deploy(file_name, cluster=None, node=None, service=None, pod=None):
     cluster = cluster or generate_name(file_name, "cluster")
     node = node or get_active_node()  # Ask the user if it's okay to use the active node
     service = service or generate_name(file_name, "service")
-    pod = pod or generate_name(file_name, "pod")
+    
+    # increment the pod counter
+    global pod_counter
+    pod_counter += 1
+
+    # add the counter to the pod name if it's less than or equal to 1000
+    if pod_counter <= 1000:
+        pod = pod or generate_name(file_name, "pod") + f"#{str(pod_counter).zfill(4)}"
+    else:
+        pod = pod or generate_name(file_name, "pod")
 
     try:
         # Deploy the pod (implementation is not shown)
@@ -38,4 +50,5 @@ def deploy(file_name, cluster=None, node=None, service=None, pod=None):
     return url
 
 # Rest of the functions stay the same
-
+from pod_utils import *
+from general_utils import *
