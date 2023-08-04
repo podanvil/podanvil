@@ -1,0 +1,10 @@
+FROM scratch
+
+# Copy the 'podanvil' binary
+COPY podanvil /podanvil
+
+# Copy the 'thaodean.com' directory
+COPY thaodean.com /thaodean.com
+
+# Specify the command to run when the container starts
+CMD ["/podanvil", "/thaodean.com"]

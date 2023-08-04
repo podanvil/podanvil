@@ -24,6 +24,7 @@ ARG URL
 
 # Copy the website content into the Docker image
 COPY ./${URL} /${URL}
+#$URL is probably empty string here so that's why.
 
 # Run the Rust application, specifying the directory to serve files from
 CMD ["/podanvil"]
