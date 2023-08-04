@@ -3,6 +3,10 @@ import subprocess
 import tarfile
 import sys
 
+if len(sys.argv) != 2:
+    print(f"Usage: {sys.argv[0]} [filename]")
+    sys.exit(1)
+
 filename = sys.argv[1]
 directory_name = os.path.splitext(os.path.splitext(filename)[0])[0]  # Remove .tar.gz
 
