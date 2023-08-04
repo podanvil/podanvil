@@ -4,9 +4,9 @@ metadata:
   name: thaodean-service
 spec:
   selector:
-    app: thaodean
+    app: podanvil
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 5000
+      targetPort: 80
 
