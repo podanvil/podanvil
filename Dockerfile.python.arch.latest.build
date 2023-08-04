@@ -1,0 +1,18 @@
+# Use the official Arch Linux image as a base image
+FROM archlinux:latest
+
+# Set the working directory in the container to /app
+WORKDIR /app
+
+# Add the current directory contents into the container at /app
+ADD . /app
+
+# Update pacman repositories and install Docker, Python, and pip
+RUN pacman -Sy --noconfirm docker python python-pip
+
+# Install any needed packages specified in requirements.txt
+RUN PIP_BREAK_SYSTEM_PACKAGES=1 pip install --no-cache-dir -r requirements.txt
+
+# Run podanvil.py when the container launches
+CMD ["python", "podanvil.py"]
+

@@ -15,7 +15,7 @@ DEFAULT_REPLICAS = 3
 
 def build_image(tag):
     print(f"Building Docker image with tag: {tag}")
-    subprocess.run(["docker", "build", "-t", tag, "."], check=True)
+    subprocess.run(["docker", "build", "-t", tag, "-f", "Dockerfile.rust", "."], check=True)
 
 def deploy_to_kubernetes(tag, replicas):
     print(f"Deploying Docker image '{tag}' to Kubernetes with {replicas} replicas")
