@@ -4,19 +4,25 @@ FROM rust as builder
 WORKDIR /app
 
 # Copy over our Cargo.toml and build the dependencies
-COPY ./Cargo.toml ./Cargo.toml
+COPY Cargo.toml Cargo.lock ./
+
+# Dummy build to cache dependencies
 RUN mkdir src/
 RUN echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs
 RUN cargo build --release
-RUN rm -f target/release/deps/podanvil*
+RUN rm -rf src/
 
 # Copy the source and build the application.
-COPY ./src ./src
+COPY ./src/main.rs ./src/main.rs
 RUN cargo build --release
 
 # Start a new stage
-FROM debian:buster-slim
+FROM debian
+# Copy the compiled Rust binary into the Docker image
 COPY --from=builder /app/target/release/podanvil .
+RUN mkdir thaodean.com
+COPY ./thaodean.com ./thaodean.com #will need to be parameter here, not hardcoded, please modify
 
 # Set the startup command
-CMD ["./podanvil"]
+CMD ["./podanvil ./thaodean.com"]
+
