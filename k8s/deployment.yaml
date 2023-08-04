@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: podanvil-v1
+  name: podanvil
 spec:
   replicas: 1
   selector:
@@ -15,6 +15,4 @@ spec:
       containers:
       - name: podanvil
         image: thaodean/podanvil:latest
-        ports:
-        - containerPort: 80
-
+        args: ["./thaodean.com"]

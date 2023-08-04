@@ -17,10 +17,5 @@ subprocess.check_call(["docker", "build", "-t", "podanvil:latest", "."])
 subprocess.check_call(["docker", "tag", "podanvil:latest", "thaodean/podanvil:latest"])
 subprocess.check_call(["docker", "push", "thaodean/podanvil:latest"])
 
-# Change this to match your Kubernetes configuration
-subprocess.check_call([
-    "kubectl", "run", "podanvil",
-    "--image=thaodean/podanvil:latest",
-    "--", directory_name
-])
-
+# Apply the Kubernetes deployment
+subprocess.check_call(["kubectl", "apply", "-f", "k8s/deployment.yaml"])
