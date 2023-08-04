@@ -1,0 +1,2 @@
+git gc
+git prune

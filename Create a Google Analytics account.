@@ -1,0 +1,11 @@
+Create a Google Analytics account.
+    If you already have a Google account, you can use that to log in to Google Analytics. If you don't have a Google account, you'll need to create one first.
+
+    Set up a property in Google Analytics.
+    In Google Analytics, a "property" is basically your website or blog. You'll need to provide some basic information like your website name, URL, industry category, and time zone. Once you've set up the property, Google Analytics will give you a tracking code.
+
+    Install a Google Analytics plugin on your WordPress blog.
+    There are many plugins available that can help you integrate Google Analytics with your WordPress blog. Examples include "Google Analytics Dashboard for WP", "MonsterInsights", or "Analytify". You can install these plugins directly from your WordPress admin dashboard.
+
+    Configure the plugin with your Google Analytics tracking code.
+    Once you've installed the plugin, you'll need to configure it with the tracking code that Google Analytics gave you. The exact steps can vary depending on the plugin, but generally, you'll need to enter the tracking code into a field in the plugin's settings.

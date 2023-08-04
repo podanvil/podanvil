@@ -1,0 +1,24 @@
+
+# Our base image
+FROM rust as builder
+
+# Create a new empty shell project
+RUN USER=root cargo new --bin podanvil
+WORKDIR /app/podanvil
+
+# Copy over our Cargo.toml and build the dependencies
+COPY ./Cargo.toml ./Cargo.toml
+RUN cargo build --release
+RUN rm src/*.rs
+
+# Copy the source and build the application.
+COPY ./src ./src
+RUN rm ./target/release/deps/podanvil*
+RUN cargo build --release
+
+# Start a new stage
+FROM debian:buster-slim
+COPY --from=builder /app/podanvil/target/release/podanvil .
+
+# Set the startup command
+CMD ["./podanvil"]
