@@ -160,3 +160,17 @@ cython_debug/
 #.idea/
 sync.sh
 
+# .gitignore
+__pycache__
+*.py[cod]
+*.log
+*.txt
+*.tar.gz
+*.bak
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tar.gz
+
