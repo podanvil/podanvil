@@ -17,7 +17,7 @@ FROM debian:buster-slim
 WORKDIR /
 
 # Copy the compiled Rust binary into the Docker image
-COPY --from=builder /app/target/release/podanvil /podanvil
+COPY --from=builder /app/target/release/webserver.rust.tar /podanvil
 
 # Use a build argument to specify the URL
 ARG URL
