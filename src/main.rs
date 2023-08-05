@@ -1,6 +1,6 @@
 use std::env;
 use warp::Filter;
-use log::{info, debug, error, warn};
+use log::{info, debug, error};
 
 #[tokio::main]
 async fn main() {
@@ -22,21 +22,16 @@ async fn main() {
     let port = 80;
     info!("Preparing to start server at {}:{}", ip[0], port);
     
-    let server = warp::serve(route)
+    let (addr, server) = warp::serve(route)
         .bind_with_graceful_shutdown((ip, port), async {
             info!("Shutdown signal received, starting to shut down...");
             tokio::signal::ctrl_c().await.unwrap();
             info!("Shutdown process completed.");
         });
 
-    match server {
-        Ok(_) => {
-            info!("Server started successfully at {}:{}", ip[0], port);
-            server.await;
-            info!("Server has been shut down.");
-        },
-        Err(e) => {
-            error!("Failed to start server at {}:{} due to {:?}", ip[0], port, e);
-        }
-    }
+    info!("Server started successfully at {}:{}", addr.ip(), addr.port());
+
+    server.await;
+
+    info!("Server has been shut down.");
 }
